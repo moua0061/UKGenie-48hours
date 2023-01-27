@@ -1,0 +1,190 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Chat Bot</title>-->
+<!--    <link rel="stylesheet" href="static/css/chat.css">-->
+<!--    <link rel="stylesheet" href="static/css/home.css">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<!--</head>-->
+<!--    <body>-->
+<!--        &lt;!&ndash;CHAT BAR BLOCK&ndash;&gt;-->
+<!--        <div class="chat-bar-collapsible">-->
+<!--            <button id="chat-button" type="button" class="collapsible">Chat with UKGenie-->
+<!--                <i id="chat-icon" style="color:#ffffffff" class="fa fa-fw fa-comments-o"></i>-->
+<!--            </button>-->
+<!--        <div class="content">-->
+<!--            <div class="full-chat-block">-->
+
+<!--                &lt;!&ndash; Message Container &ndash;&gt;-->
+<!--                <div class="outer-container">-->
+<!--                    <div class="chat-container">-->
+
+<!--                        &lt;!&ndash; Messages &ndash;&gt;-->
+<!--                        <div id="chatbox">-->
+<!--                            <h5 id="chat-timestamp"></h5>-->
+<!--                            <p id="botStarterMessage" class="botText"><span>Loading...</span></p>-->
+<!--                        </div>-->
+
+<!--                        &lt;!&ndash; User Input Box&ndash;&gt;-->
+<!--                        <div class="chat-bar-input-block">-->
+<!--                            <div id="userInput">-->
+<!--                                <input id="textInput" class="input-box" type="text" name="msg" placeholder="Enter your message ...">-->
+<!--                                <p></p>-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; Chat Bar Icons&ndash;&gt;-->
+<!--                            <div class="chat-bar-icons">-->
+<!--                                <i id="chat-icon" style="color:crimson" class="fa fa-fw fa-heart" onclick="heartButton()"></i>-->
+<!--                                <i id="chat-icon" style="color:#333" class="fa fa-fw fa-send" onclick="sendButton()"></i>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div id="chat-bar-bottom">-->
+<!--                            <p></p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+<!--        </div>-->
+<!--    </body>-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+<!--<script src="static/scripts/chat.js"></script>-->
+<!--<script src="static/scripts/responses.js"></script>-->
+<!--</html>-->
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <script>
+        var initialGreetingDisplayed = false;
+        $(document).ready(function() {
+            $("#txtMessage").keyup(function(event) {
+                if (event.keyCode === 13) {
+                    $("#btnSend").click();
+                }
+            });
+            $("#btnChatbot").click(function() {
+                $("#chatbotBar").slideToggle();
+                if (!initialGreetingDisplayed) {
+                    var greeting = "Hello! How can I assist you today?";
+                    $("#chatbotMessages").append("<p class='message bot'>UKGenie: " + greeting + "</p>");
+                    initialGreetingDisplayed = true;
+                }
+                if($("#chatbotBar").is(":visible")) {
+                    $("#btnChatbot").hide();
+                }else{
+                    $("#btnChatbot").show();
+                }
+            });
+            $("#btnCompact").click(function() {
+                $("#chatbotBar").slideToggle();
+                $("#btnChatbot").show();
+            });
+            $("#btnSend").click(function() {
+                var message = $("#txtMessage").val();
+                $("#chatbotMessages").append("<p class='message user'>You: " + message + "</p>");
+
+                // Send message to UKGenie and get response
+                var UKGenieDefaultResponse = "I'm sorry, I'm not sure what you mean. Can you please rephrase your question?";
+                var UKGenieGreeting = "Hello, how can I help you today?";
+
+                //Where can I find my total PTO hours? How can I find my total PTO hours?
+                var howToAccessPTOmessage = "Here is how you can access your total PTO hours: ";
+                var navigationToHowToAccessPTOmessage = "On your left, click 'Benefits'. Then select 'PTO Plans'. There, you should find your total PTO hours. ";
+                var anythingElseMessage = "Anything else I can help you with? ";
+
+                //no/No
+                var pleasureReminderMessage = "It was a pleasure. Remember, I'm always here. If you need me again, just click on the chat bar on the bottom to call me. ";
+                //goodbye, good bye
+                var haveAWonderfulDaymessage = "Have a wonderful day!";
+
+                //thank you/Thank you
+                var youreWelcomeMessage = "You're welcome. ";
+
+                //how much time off do i have?
+                var timeOffMessage = "You have 28.76 PTO hours and 67.96 Sick Leave Hours left. "
+
+                //where can I referr a friend to a job?
+                var jobReferralMessage = "Here is where you would referr a friend to a job: "
+
+
+                setTimeout(function(){
+                    // add the typing class to the message
+                    $("#chatbotMessages").append("<p class='message bot typing'>UKGenie: </p>");
+                    // wait for the animation to finish
+                    // remove the typing class
+                    $(".typing").removeClass("typing");
+
+                    // add the response
+                    if(message == "hello" || message == "Hello" || message == "hi" || message == "Hi" || message == "Hi!"){
+                        $(".bot:last").append(UKGenieGreeting);
+                    } else if(message == "How can I find my total PTO hours?" || message == "Where can I find my total PTO hours?"){
+                        $(".bot:last").append(howToAccessPTOmessage, navigationToHowToAccessPTOmessage, anythingElseMessage);
+                    } else if(message == "thank you" || message == "Thank you"){
+                        $(".bot:last").append(youreWelcomeMessage);
+                    } else if(message == "no" || message == "No"){
+                        $(".bot:last").append(pleasureReminderMessage, haveAWonderfulDaymessage);
+                        //$(".bot:last").append(haveAWonderfulDaymessage);
+                    } else if(message == "goodbye" || message == "good bye"){
+                        $(".bot:last").append(haveAWonderfulDaymessage);
+                    } else if(message == "How much time off do I have?" || message =="how much time off do i have?"){
+                        $(".bot:last").append(timeOffMessage);
+                    } else {
+                        $(".bot:last").append(UKGenieDefaultResponse);
+                    }
+
+                    $("#chatbotMessages").animate({ scrollTop: $("#chatbotMessages")[0].scrollHeight}, 1000);
+                },1000);
+                $("#txtMessage").val("");
+            });
+            $("#chatbotBar").draggable();
+        });
+    </script>
+    <link rel="stylesheet" href="static/css/chat.css">
+    <style>
+        body {
+            color: #2A2C2F;
+            /*font-style: ;*/
+            background-image: url("images/main2.png");
+            /*background-attachment: fixed;*/
+            height: 100%;
+            margin-top: 220px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+    </style>
+</head>
+<body>
+<div id="chatbotBar">
+    <div id="chatbotHeader">
+        Chat with UKGenie
+        <i id="chat-icon" style="color:#ffffffff" class="fa fa-fw fa-comments-o"></i>
+    </div>
+    <div id="chatbotMessages"></div>
+    <div id="textBar">
+        <input type="text" id="txtMessage" placeholder="Type your message here..." />
+        <button id="btnSend"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
+<div id="sidebarButton" onclick="toggleChatbot()"><i class="fas fa-comment-alt"></i></div>
+<script>
+    function toggleChatbot() {
+        $("#chatbotBar").slideToggle();
+        if (!initialGreetingDisplayed) {
+            var greeting = "Hello! How can I assist you today?";
+            $("#chatbotMessages").append("<p class='message bot'>UKGenie: " + greeting + "</p>");
+            initialGreetingDisplayed = true;
+        }
+    }
+</script>
+</body>
+</html>
